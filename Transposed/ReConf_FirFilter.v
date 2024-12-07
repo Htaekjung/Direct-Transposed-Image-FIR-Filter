@@ -61,12 +61,9 @@ module ReConf_FirFilter(
 	wire signed [15:0] wMac3;
 	wire signed [15:0] wMac4;
 	
-	wire signed  [2:0] wDelay1;
-	wire signed  [2:0] wDelay2;
-	wire signed  [2:0] wDelay3;
-	wire signed  [2:0] wDelay4;
 
 	reg  [15:0] rCoeff [1:33];
+	integer j,k,l;
 	always @(*) begin
 		if (!iRsn) begin
 			// Reset 시 모든 Coefficient 초기화
@@ -257,7 +254,6 @@ module ReConf_FirFilter(
 		.iEnMul(wEnMul1),
 		.iEnAdd(wEnAdd1),
 		.iEnAcc(wEnAcc1),
-		.iCoeff(wRdDtRam1),
 		.iFirIn(iFirIn),
 		.iCoeff1(rCoeff[1]),
 		.iCoeff2(rCoeff[2]),
@@ -280,7 +276,6 @@ module ReConf_FirFilter(
 		.iEnAdd(wEnAdd2),
 		.iEnAcc(wEnAcc2),
 		.iShift(wMac1),
-		.iCoeff(wRdDtRam2),
 		.iFirIn(iFirIn),
 		.iCoeff1(rCoeff[11]),
 		.iCoeff2(rCoeff[12]),
@@ -302,8 +297,6 @@ module ReConf_FirFilter(
 		.iEnAdd(wEnAdd3),
 		.iEnAcc(wEnAcc3),
 		.iShift(wMac2),
-		.iCoeff(wRdDtRam3),
-		.iDelay(wDelay3),
 		.iFirIn(iFirIn),
 		.iCoeff1(rCoeff[21]),
 		.iCoeff2(rCoeff[22]),
@@ -318,14 +311,13 @@ module ReConf_FirFilter(
 		.oMac(wMac3)
 	);
 //역할 : iFirIn과 coeff 10개를 동시에 곱해서 shift register까지 구현해서 계속 넘기면서 출력값은 wire로 출력
-	Multiplier_Adder_Shift_Output MAS_Final(
+	Mul_Add_Shift_Output MAS_Final(
 		.iClk_12M(iClk_12M),
 		.iRsn(iRsn),
 		.iEnSample_300k(iEnSample_300k),
 		.iEnMul(wEnMul4),
 		.iEnAdd(wEnAdd4),
 		.iEnAcc(wEnAcc4),
-		.iCoeff(wRdDtRam4),
 		.iCoeff1(rCoeff[31]),
 		.iCoeff2(rCoeff[32]),
 		.iCoeff3(rCoeff[33]),
