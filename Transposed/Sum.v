@@ -10,7 +10,7 @@ module Sum(
     input iRsn,
     input signed [15:0] iMac1, iMac2, iMac3, iMac4, // 입력값 4개
     input iEnDelay,                          // 지연 신호 활성화
-    input iEnSample_600k,                    // 샘플링 신호 활성화
+    input iEnSample_300k,                    // 샘플링 신호 활성화
     output reg signed [15:0] oFirOut                   // 출력값 (포화 처리된 값)
 );
     wire signed [15:0] wAccSum; // 17비트로 확장된 합산 결과
@@ -33,7 +33,7 @@ module Sum(
 		if(!iRsn) begin
 			oFirOut<= 16'h0;
 		end
-		else if(iEnSample_600k==1'b1 && iEnDelay ==1'b1) begin
+		else if(iEnSample_300k==1'b1 && iEnDelay ==1'b1) begin
 			oFirOut <= wAccSumSat;
 		end
 	end

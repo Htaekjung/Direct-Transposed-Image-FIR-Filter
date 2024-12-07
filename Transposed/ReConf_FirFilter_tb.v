@@ -15,7 +15,7 @@ module ReConf_FirFilter_tb;
   // Input signals
   reg iClk_12M;
   reg iRsn;
-  reg iEnSample_600k;
+  reg iEnSample_300k;
   reg iCoeffiUpdateFlag;
   reg iCsnRam;
   reg iWrnRam;
@@ -29,7 +29,7 @@ module ReConf_FirFilter_tb;
   ReConf_FirFilter uut (
     .iClk_12M(iClk_12M),
     .iRsn(iRsn),
-    .iEnSample_600k(iEnSample_600k),
+    .iEnSample_300k(iEnSample_300k),
     .iCoeffiUpdateFlag(iCoeffiUpdateFlag),
     .iCsnRam(iCsnRam),
     .iWrnRam(iWrnRam),
@@ -72,16 +72,16 @@ module ReConf_FirFilter_tb;
   /***********************************************
   // 600kHz sample enable making
   ***********************************************/
-
-    initial begin
-      #20
-      repeat (150) begin
-        iEnSample_600k <= 1'b1;
-        #83.333
-        iEnSample_600k <= 1'b0;
-        #1666.67;
-      end
+  initial begin
+    #20
+    repeat (150) begin
+      iEnSample_300k <= 1'b1;
+      #166.666;  // 83.333 * 2
+      iEnSample_300k <= 1'b0;
+      #3333.34;  // 1666.67 * 2
     end
+  end
+
   /***********************************************
   // Switch control
   ***********************************************/
@@ -89,21 +89,21 @@ module ReConf_FirFilter_tb;
   begin
     iFirIn  <= 3'b000;
     // iSampleSelect setting
-    repeat (1) @(posedge iClk_12M && iEnSample_600k);
+    repeat (1) @(posedge iClk_12M && iEnSample_300k);
     iFirIn  <= 3'b000;
     // 1ea 3'b001 input
     $display("------------------------------------------------->");
     $display("OOOOO 3'b001 is received from testbench  !!! OOOOO");
     $display("------------------------------------------------->");
 
-    repeat (  2) @(posedge iClk_12M && iEnSample_600k);
+    repeat (  2) @(posedge iClk_12M && iEnSample_300k);
     repeat (20) @(posedge iClk_12M);
     iFirIn  <= 3'b001;
     repeat (2) @(posedge iClk_12M);
       iFirIn  <= 3'b000;
 
     // 200ea 3'b000 input
-    repeat (1000) @(posedge iClk_12M && iEnSample_600k);
+    repeat (1000) @(posedge iClk_12M && iEnSample_300k);
 
   end
 
@@ -167,7 +167,7 @@ end
   end
 
   initial begin
-    repeat(3) @(posedge iEnSample_600k);
+    repeat(3) @(posedge iEnSample_300k);
     repeat (20) @(posedge iClk_12M);
     repeat(33)  begin
         for (i = 1; i <= 10; i = i + 1) begin

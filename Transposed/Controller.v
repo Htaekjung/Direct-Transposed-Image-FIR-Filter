@@ -8,7 +8,7 @@
 module Controller(
     input iClk_12M,
     input iRsn,
-    input iEnSample_600k,
+    input iEnSample_300k,
     input iCsnRam,
     input iWrnRam,
     input iCoeffiUpdateFlag,
