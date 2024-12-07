@@ -15,8 +15,8 @@ module Mul_Add_Shift(
     input signed [15:0] iCoeff8,
     input signed [15:0] iCoeff9,
     input signed [15:0] iCoeff10,
+    input signed [2:0] iFirIn,       // FIR input
 
-    input signed [15:0] iFirIn,       // FIR input
     output reg signed [15:0] oMac    // 16-bit Output
 );
 
@@ -37,7 +37,7 @@ module Mul_Add_Shift(
     assign wMul[9] = iFirIn * iCoeff10;
 
     // Sequential Logic for Transposed FIR Filter
-    always @(posedge iClk_12M or negedge iRsn) begin
+    always @(posedge iClk_12M) begin
         if (!iRsn) begin
             oMac <= 0;
             // Reset all shift registers

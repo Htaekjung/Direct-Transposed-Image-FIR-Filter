@@ -158,16 +158,16 @@ end
   /**********************************/
   initial begin
     repeat(22) @(posedge iClk_12M);
-    repeat(4) begin
+    repeat(3) begin
       for (i = 1; i <= 10; i = i + 1) begin
           @(posedge iClk_12M);
           iAddrRam = i; // Address within 0 to 9 for each RAM
       end
-  	end
+    end
   end
 
   initial begin
-    repeat(3) @(posedge iEnSample_300k);
+    repeat(2) @(posedge iEnSample_300k);
     repeat (20) @(posedge iClk_12M);
     repeat(33)  begin
         for (i = 1; i <= 10; i = i + 1) begin

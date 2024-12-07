@@ -59,7 +59,6 @@ module ReConf_FirFilter(
 	wire signed [15:0] wMac1;
 	wire signed [15:0] wMac2;
 	wire signed [15:0] wMac3;
-	wire signed [15:0] wMac4;
 	
 
 	reg  [15:0] rCoeff [1:33];
@@ -318,6 +317,7 @@ module ReConf_FirFilter(
 		.iEnMul(wEnMul4),
 		.iEnAdd(wEnAdd4),
 		.iEnAcc(wEnAcc4),
+		.iFirIn(iFirIn),
 		.iCoeff1(rCoeff[31]),
 		.iCoeff2(rCoeff[32]),
 		.iCoeff3(rCoeff[33]),
