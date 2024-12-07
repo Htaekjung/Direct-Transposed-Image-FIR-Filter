@@ -8,7 +8,7 @@
 module Sum(
     input iClk_12M,
     input iRsn,
-    input signed [15:0] iMac1, iMac2, iMac3, iMac4, // 입력값 4개
+    input signed [15:0] iMac1, // 입력값 4개
     input iEnDelay,                          // 지연 신호 활성화
     input iEnSample_300k,                    // 샘플링 신호 활성화
     output reg signed [15:0] oFirOut                   // 출력값 (포화 처리된 값)
@@ -19,7 +19,7 @@ module Sum(
 
     //4개의 입력값 합산 (Signed 16-bit → Signed 17-bit)
     // assign wAccSum = $signed(iMac1) + $signed(iMac2) + $signed(iMac3) + $signed(iMac4);
-    assign wAccSum = iMac1 + iMac2 + iMac3 + iMac4;
+    assign wAccSum = iMac1;
     // Condition #1: 양수 오버플로 (MSB가 0 → 1로 변한 경우)
     assign wSatCon_1 = (wAccSum[15] == 1'b0 && (wAccSum[15] + 16'b0) == 1'b1) ? 1'b1 : 1'b0;
 
