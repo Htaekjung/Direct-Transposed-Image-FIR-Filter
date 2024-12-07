@@ -158,9 +158,10 @@ module ReConf_FirFilter(
 
 
 //역할 : iFirIn과 coeff 10개를 동시에 곱해서 shift register까지 구현해서 계속 넘기면서 출력값은 wire로 출력 
-	Multiplier_Adder_Shift MAS_1(
+	Mul_Add_Shift MAS_1(
 		.iClk_12M(iClk_12M),
 		.iRsn(iRsn),
+		.iEnSample_300k(iEnSample_300k),
 		.iEnMul(wEnMul1),
 		.iEnAdd(wEnAdd1),
 		.iEnAcc(wEnAcc1),
@@ -169,25 +170,29 @@ module ReConf_FirFilter(
 		.oMac(wMac1)
 	);
 //역할 : iFirIn과 coeff 10개를 동시에 곱해서 shift register까지 구현해서 계속 넘기면서 출력값은 wire로 출력
-	Multiplier_Adder_Shift MAS_2(
+	Mul_Add_Shift_2 MAS_2(
 		.iClk_12M(iClk_12M),
 		.iRsn(iRsn),
+		.iEnSample_300k(iEnSample_300k),
 		.iEnMul(wEnMul2),
 		.iEnAdd(wEnAdd2),
 		.iEnAcc(wEnAcc2),
+		.iShift(wMac1),
 		.iCoeff(wRdDtRam2),
-		.iDelay(wDelay11),
+		.iFirIn(iFirIn),
 		.oMac(wMac2)
 	);
 //역할 : iFirIn과 coeff 10개를 동시에 곱해서 shift register까지 구현해서 계속 넘기면서 출력값은 wire로 출력
-	Multiplier_Adder_Shift MAS_3(
+	Mul_Add_Shift_2 MAS_3(
 		.iClk_12M(iClk_12M),
 		.iRsn(iRsn),
 		.iEnMul(wEnMul3),
 		.iEnAdd(wEnAdd3),
 		.iEnAcc(wEnAcc3),
+		.iShift(wMac2),
 		.iCoeff(wRdDtRam3),
 		.iDelay(wDelay3),
+		.iFirIn(iFirIn),
 		.oMac(wMac3)
 	);
 //역할 : iFirIn과 coeff 10개를 동시에 곱해서 shift register까지 구현해서 계속 넘기면서 출력값은 wire로 출력
