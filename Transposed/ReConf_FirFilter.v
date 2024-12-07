@@ -66,6 +66,98 @@ module ReConf_FirFilter(
 	wire signed  [2:0] wDelay3;
 	wire signed  [2:0] wDelay4;
 
+	reg  [15:0] rCoeff [1:33];
+	always @(*) begin
+		if (!iRsn) begin
+			// Reset 시 모든 Coefficient 초기화
+			for (i = 1; i <= 10; i = i + 1) begin
+				rCoeff[i] <= 16'h0;
+			end
+		end
+		else if (wCsnRam1 == 1'b0 && wWrnRam1 == 1'b1) begin
+			// Coefficient Update Phase		
+			case (iAddrRam)
+				6'd1:  rCoeff[1]  <= wRdDtRam1;
+				6'd2:  rCoeff[2]  <= wRdDtRam1;
+				6'd3:  rCoeff[3]  <= wRdDtRam1;
+				6'd4:  rCoeff[4]  <= wRdDtRam1;
+				6'd5:  rCoeff[5]  <= wRdDtRam1;
+				6'd6:  rCoeff[6]  <= wRdDtRam1;
+				6'd7:  rCoeff[7]  <= wRdDtRam1;
+				6'd8:  rCoeff[8]  <= wRdDtRam1;
+				6'd9:  rCoeff[9]  <= wRdDtRam1;
+				6'd10: rCoeff[10] <= wRdDtRam1;
+				default: ; // No action
+			endcase
+		end
+	end	
+		
+	always @(*) begin
+		if (!iRsn) begin
+			// Reset 시 모든 Coefficient 초기화
+			for (j = 11; j <= 20; j = j + 1) begin
+				rCoeff[j] <= 16'h0;
+			end
+		end
+		else if (wCsnRam2 == 1'b0 && wWrnRam2 == 1'b1) begin
+			case (iAddrRam)
+				6'd1:  rCoeff[11] <= wRdDtRam2;
+				6'd2:  rCoeff[12] <= wRdDtRam2;
+				6'd3:  rCoeff[13] <= wRdDtRam2;
+				6'd4:  rCoeff[14] <= wRdDtRam2;
+				6'd5:  rCoeff[15] <= wRdDtRam2;
+				6'd6:  rCoeff[16] <= wRdDtRam2;
+				6'd7:  rCoeff[17] <= wRdDtRam2;
+				6'd8:  rCoeff[18] <= wRdDtRam2;
+				6'd9:  rCoeff[19] <= wRdDtRam2;
+				6'd10: rCoeff[20] <= wRdDtRam2;
+				default: ; // No action
+			endcase
+		end
+	end
+	
+	always @(*) begin
+		if (!iRsn) begin
+			// Reset 시 모든 Coefficient 초기화
+			for (k = 21; k <= 30; k = k + 1) begin
+				rCoeff[k] <= 16'h0;
+			end
+		end	
+		else if (wCsnRam3 == 1'b0  && wWrnRam3 == 1'b1) begin
+			case (iAddrRam)
+				6'd1:  rCoeff[21] <= wRdDtRam3;
+				6'd2:  rCoeff[22] <= wRdDtRam3;
+				6'd3:  rCoeff[23] <= wRdDtRam3;
+				6'd4:  rCoeff[24] <= wRdDtRam3;
+				6'd5:  rCoeff[25] <= wRdDtRam3;
+				6'd6:  rCoeff[26] <= wRdDtRam3;
+				6'd7:  rCoeff[27] <= wRdDtRam3;
+				6'd8:  rCoeff[28] <= wRdDtRam3;
+				6'd9:  rCoeff[29] <= wRdDtRam3;
+				6'd10: rCoeff[30] <= wRdDtRam3;
+				default: ; // No action
+			endcase
+		end
+	end
+	
+	always @(*) begin
+		if (!iRsn) begin
+			// Reset 시 모든 Coefficient 초기화
+			for (l = 31; l <= 33; l = l + 1) begin
+				rCoeff[l] <= 16'h0;
+			end
+		end	
+		else if (wCsnRam4 == 1'b0 && wWrnRam4 == 1'b1) begin
+			case (iAddrRam)
+				6'd1: rCoeff[31] <= wRdDtRam4;
+				6'd2: rCoeff[32] <= wRdDtRam4;
+				6'd3: rCoeff[33] <= wRdDtRam4;
+				default: ; // No action
+			endcase
+		end	
+	end
+
+
 	//SpSram instance 
     SpSram_10x16 SpSram1(
         .iClk_12M(iClk_12M),
@@ -167,6 +259,16 @@ module ReConf_FirFilter(
 		.iEnAcc(wEnAcc1),
 		.iCoeff(wRdDtRam1),
 		.iFirIn(iFirIn),
+		.iCoeff1(rCoeff[1]),
+		.iCoeff2(rCoeff[2]),
+		.iCoeff3(rCoeff[3]),
+		.iCoeff4(rCoeff[4]),
+		.iCoeff5(rCoeff[5]),
+		.iCoeff6(rCoeff[6]),
+		.iCoeff7(rCoeff[7]),
+		.iCoeff8(rCoeff[8]),
+		.iCoeff9(rCoeff[9]),
+		.iCoeff10(rCoeff[10]),
 		.oMac(wMac1)
 	);
 //역할 : iFirIn과 coeff 10개를 동시에 곱해서 shift register까지 구현해서 계속 넘기면서 출력값은 wire로 출력
@@ -180,6 +282,16 @@ module ReConf_FirFilter(
 		.iShift(wMac1),
 		.iCoeff(wRdDtRam2),
 		.iFirIn(iFirIn),
+		.iCoeff1(rCoeff[11]),
+		.iCoeff2(rCoeff[12]),
+		.iCoeff3(rCoeff[13]),
+		.iCoeff4(rCoeff[14]),
+		.iCoeff5(rCoeff[15]),
+		.iCoeff6(rCoeff[16]),
+		.iCoeff7(rCoeff[17]),
+		.iCoeff8(rCoeff[18]),
+		.iCoeff9(rCoeff[19]),
+		.iCoeff10(rCoeff[20]),
 		.oMac(wMac2)
 	);
 //역할 : iFirIn과 coeff 10개를 동시에 곱해서 shift register까지 구현해서 계속 넘기면서 출력값은 wire로 출력
@@ -193,20 +305,32 @@ module ReConf_FirFilter(
 		.iCoeff(wRdDtRam3),
 		.iDelay(wDelay3),
 		.iFirIn(iFirIn),
+		.iCoeff1(rCoeff[21]),
+		.iCoeff2(rCoeff[22]),
+		.iCoeff3(rCoeff[23]),
+		.iCoeff4(rCoeff[24]),
+		.iCoeff5(rCoeff[25]),
+		.iCoeff6(rCoeff[26]),
+		.iCoeff7(rCoeff[27]),
+		.iCoeff8(rCoeff[28]),
+		.iCoeff9(rCoeff[29]),
+		.iCoeff10(rCoeff[30]),
 		.oMac(wMac3)
 	);
 //역할 : iFirIn과 coeff 10개를 동시에 곱해서 shift register까지 구현해서 계속 넘기면서 출력값은 wire로 출력
 	Multiplier_Adder_Shift_Output MAS_Final(
 		.iClk_12M(iClk_12M),
 		.iRsn(iRsn),
+		.iEnSample_300k(iEnSample_300k),
 		.iEnMul(wEnMul4),
 		.iEnAdd(wEnAdd4),
 		.iEnAcc(wEnAcc4),
 		.iCoeff(wRdDtRam4),
-		.iDelay(wDelay4),
+		.iCoeff1(rCoeff[31]),
+		.iCoeff2(rCoeff[32]),
+		.iCoeff3(rCoeff[33]),
 		.oFirOut(oFirOut)
-	);	
-	
+	);
 endmodule
 	
 	
