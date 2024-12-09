@@ -21,7 +21,6 @@ module ReConf_FirFilter_tb;
   reg iWrnRam;
   reg [5:0] iAddrRam;
   reg signed [15:0] iWrDtRam;
-  reg [5:0] iNumOfCoeff;
   reg signed [2:0] iFirIn;
   // Output signal
   wire signed [15:0] oFirOut;
@@ -34,7 +33,6 @@ module ReConf_FirFilter_tb;
     .iWrnRam(iWrnRam),
     .iAddrRam(iAddrRam),
     .iWrDtRam(iWrDtRam),
-    .iNumOfCoeff(iNumOfCoeff),
     .iFirIn(iFirIn),
     .oFirOut(oFirOut)
   );
@@ -188,25 +186,20 @@ end
   //iAddr 설정
   /**********************************/
   initial begin
-    repeat(40) @(posedge iClk_12M);
-    repeat(3) begin
+    repeat(41) @(posedge iClk_12M);
+
+      for (i = 1; i <= 33; i = i + 1) begin
+          @(posedge iClk_12M);
+          iAddrRam = i; // Address within 0 to 9 for each RAM
+          iWrDtRam = coeff[iAddrRam-1];
+      end
       for (i = 1; i <= 33; i = i + 1) begin
           @(posedge iClk_12M);
           iAddrRam = i; // Address within 0 to 9 for each RAM
       end
-    end
   end
 
-  initial begin
-    repeat(80) @(posedge iClk_12M);
-    repeat(33)  begin
-        for (i = 1; i <= 33; i = i + 1) begin
-            @(posedge iClk_12M);
-            iAddrRam = i; // Address within 0 to 9 for each RAM
-        end
-        repeat (29) @(posedge iClk_12M);
-    end
-	end
+
 
 /************************************/
 //FSM
@@ -218,35 +211,32 @@ initial begin
     iWrnRam = 1;
     iAddrRam = 0;
     iWrDtRam = 0;
-    iNumOfCoeff = 6'b0; // 기본 계수 개수 10
     // 테스트 단계
     // 0. p_Idle 상태
-    repeat (40) @(posedge iClk_12M);
+    repeat (41) @(posedge iClk_12M);
     $display("TEST: p_Idle 상태로 전환");
 
 
     iCoeffiUpdateFlag = 1; // 계수 업데이트 플래그 설정
     iCsnRam = 0; 
     iWrnRam = 0; // RAM 활성화
-    iNumOfCoeff = 0;
     iAddrRam = 0;
-    // 1. p_SpSram 상태
-    repeat (40) @(posedge iClk_12M);
+    // 1. p_Write 상태
+    repeat (33) @(posedge iClk_12M);
     
     $display("TEST: p_SpSram 상태로 전환");
-    iNumOfCoeff = 42;
-    repeat (34) begin
+    // repeat (34) begin
       iWrnRam = 1; 
       iCsnRam = 0;
       iCoeffiUpdateFlag = 0;
-      // 2. p_Acc 상태
+      // 2. p_Read 상태
       $display("TEST: p_Acc 상태로 전환");
-        repeat (10) @(posedge iClk_12M);
+        repeat (33) @(posedge iClk_12M);
         iCsnRam = 1;
-        // 3. p_Sum 상태
-        repeat (30) @(posedge iClk_12M);
+        // 3. p_Output 상태
+        repeat (50) @(posedge iClk_12M);
         $display("TEST: p_Sum 상태로 전환");
-    end
+    //end
     #100; // 최종 출력 확인
     $stop; // 시뮬레이션 종료
 end

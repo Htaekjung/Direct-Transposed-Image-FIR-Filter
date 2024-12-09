@@ -13,7 +13,6 @@ module ReConf_FirFilter(
 	input iWrnRam,
 	input [5:0] iAddrRam,
 	input signed [15:0] iWrDtRam,
-	input [5:0] iNumOfCoeff,//0~40
 	input signed [2:0] iFirIn,
 	output signed [15:0] oFirOut
 	);
