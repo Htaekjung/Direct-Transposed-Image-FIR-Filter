@@ -13,12 +13,11 @@ module Controller(
     input iCoeffiUpdateFlag,
     input [5:0] iAddrRam,
     input signed [15:0] iWrDtRam,
-    input [5:0] iNumOfCoeff,
     output oEnAcc,
     output oCsnRam,                 //SpSram write read에 사용
     output oWrnRam,                 //SpSram write read에 사용
     output signed [15:0] oWrDtRam,  //Coefficient 값
-    output [3:0] oAddrRam,          //SpSram write read에 사용
+    output [5:0] oAddrRam,          //SpSram write read에 사용
     output oEnDelay
 );
     parameter p_Idle = 3'b000,
@@ -71,7 +70,7 @@ module Controller(
 
     assign oWrnRam = (rCurState == p_Write) ? 1'b0 : 1'b1;
 
-    assign oAddrRam = ((rCurState == p_Write)  || rCurState == p_Read) ? iAddrRam [5:0] : 4'b0000;
+    assign oAddrRam = ((rCurState == p_Write)  || rCurState == p_Read) ? iAddrRam : 4'b0000;
 
     assign oWrDtRam = (rCurState == p_Write) ? iWrDtRam : 16'b0;
 
@@ -93,6 +92,6 @@ always @(posedge iClk_12M) begin
     end
 end
     // Output enable signals for Adders, Accumulators, and Multipliers
-    assign oEnAcc1 = rEnAccDelay;
+    assign oEnAcc = rEnAccDelay;
 
 endmodule

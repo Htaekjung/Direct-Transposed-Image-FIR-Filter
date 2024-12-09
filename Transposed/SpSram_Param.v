@@ -9,7 +9,7 @@
 
 module SpSram_Param #(
   parameter DATA_WIDTH = 16,  // Data width
-  parameter ADDR_DEPTH = 10   // Address depth
+  parameter ADDR_DEPTH = 33   // Address depth
 )(
   // Clock & reset
   input                    iClk_12M,            // Rising edge
@@ -18,7 +18,7 @@ module SpSram_Param #(
   // SP-SRAM Input & Output
   input                    iCsnRam,            // Chip selected @ low
   input                    iWrnRam,            // 0: Write, 1: Read
-  input [$clog2(ADDR_DEPTH)-1:0] iAddrRam,      // Data address
+  input [5:0] iAddrRam,      // Data address
   input signed [DATA_WIDTH-1:0] iWrDtRam,       // Write data
 
   output signed [DATA_WIDTH-1:0] oRdDtRam       // Read data

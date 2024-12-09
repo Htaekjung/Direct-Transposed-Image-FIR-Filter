@@ -25,12 +25,11 @@ module ReConf_FirFilter(
 	//ram1
 	wire wCsnRam;
 	wire wWrnRam;
-	wire [3:0] wAddrRam;
+	wire [5:0] wAddrRam;
 	wire signed [15:0] wWrDtRam;
 	wire signed [15:0] wRdDtRam;
 	
 	reg  [15:0] rCoeff [1:33];
-	integer j,k,l;
 	
 	always @(*) begin
 		if (!iRsn) begin
@@ -101,7 +100,6 @@ module ReConf_FirFilter(
         .iCoeffiUpdateFlag(iCoeffiUpdateFlag),
         .iAddrRam(iAddrRam),
 		.iWrDtRam(iWrDtRam),
-		.iNumOfCoeff(iNumOfCoeff),
 
         .oEnDelay(wEnDelay), //10개
         .oEnAcc(wEnAcc),
@@ -150,7 +148,7 @@ module ReConf_FirFilter(
 		.iCoeff31(rCoeff[31]),
 		.iCoeff32(rCoeff[32]),
 		.iCoeff33(rCoeff[33]),
-		.oMac(oFirOut)
+		.oFirOut(oFirOut)
 	);
 
 endmodule

@@ -19,7 +19,7 @@ module ReConf_FirFilter_tb;
   reg iCoeffiUpdateFlag;
   reg iCsnRam;
   reg iWrnRam;
-  reg [3:0] iAddrRam;
+  reg [5:0] iAddrRam;
   reg signed [15:0] iWrDtRam;
   reg [5:0] iNumOfCoeff;
   reg signed [2:0] iFirIn;
@@ -72,15 +72,15 @@ module ReConf_FirFilter_tb;
   // 600kHz sample enable making
   ***********************************************/
 
-  initial begin
-    #20
-    repeat (150) begin
-      iEnSample_300k <= 1'b1;
-      #83.333;  // 83.333ns, HIGH 상태 지속 시간
-      iEnSample_300k <= 1'b0;
-      #3250;    // 3250ns, LOW 상태 지속 시간
-    end
-  end
+  // initial begin
+  //   #20
+  //   repeat (150) begin
+  //     iEnSample_300k <= 1'b1;
+  //     #83.333;  // 83.333ns, HIGH 상태 지속 시간
+  //     iEnSample_300k <= 1'b0;
+  //     #3250;    // 3250ns, LOW 상태 지속 시간
+  //   end
+  // end
 
 
   /***********************************************
@@ -105,7 +105,6 @@ module ReConf_FirFilter_tb;
   // Predefined Coefficients (iWrDtRam 설정)
   ***********************************************/
   reg [15:0] coeff [0:32]; // Coefficient array for all ranges
-  reg [5:0] index;
 
 // initial begin
 //     coeff[0]  = 16'h0003;
@@ -191,43 +190,23 @@ end
   initial begin
     repeat(40) @(posedge iClk_12M);
     repeat(3) begin
-      for (i = 1; i <= 10; i = i + 1) begin
+      for (i = 1; i <= 33; i = i + 1) begin
           @(posedge iClk_12M);
           iAddrRam = i; // Address within 0 to 9 for each RAM
       end
     end
-    for (i = 1; i <= 9; i = i + 1) begin
-        @(posedge iClk_12M);
-        iAddrRam = i; // Address within 0 to 9 for each RAM
-    end
   end
 
   initial begin
-    repeat(3) @(posedge iEnSample_300k);
+    repeat(80) @(posedge iClk_12M);
     repeat(33)  begin
-        for (i = 1; i <= 11; i = i + 1) begin
+        for (i = 1; i <= 33; i = i + 1) begin
             @(posedge iClk_12M);
             iAddrRam = i; // Address within 0 to 9 for each RAM
         end
         repeat (29) @(posedge iClk_12M);
     end
 	end
-
-
-  /**********************************/
-  // iNumOfCoeff 설정
-  /**********************************/
-
-	initial begin
-  repeat(40) @(posedge iClk_12M);
-	for (j = 0; j <= 39; j = j + 1) begin
-      @(posedge iClk_12M);
-      iNumOfCoeff = j; // Address within 0 to 9 for each RAM    // Assign corresponding coefficient value
-      iWrDtRam = coeff[iNumOfCoeff];
-    end
-	end
-
-
 
 /************************************/
 //FSM
