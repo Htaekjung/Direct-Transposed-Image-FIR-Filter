@@ -5,8 +5,8 @@ module Mul_Add_Shift_2(
     input [3:0] iEnMul,
     input iEnAdd,
     input iEnAcc,
+    input signed [2:0] iFirIn,
     input signed [15:0] iShift,
-    input signed [2:0] iFirIn,        // FIR input
     input signed [15:0] iCoeff1,       // 16-bit Coefficient 1
     input signed [15:0] iCoeff2,       // 16-bit Coefficient 2
     input signed [15:0] iCoeff3,       // 16-bit Coefficient 3
@@ -22,6 +22,7 @@ module Mul_Add_Shift_2(
 
     reg [15:0] rShift [1:10];  // Shift register array
     wire signed [15:0] wMul [1:10]; // Multiplier wire array
+
 
     /*****************************/
     // Multiplier Logic
