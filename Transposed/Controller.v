@@ -8,15 +8,12 @@
 module Controller(
     input iClk_12M,
     input iRsn,
-    input iEnSample_300k,
     input iCsnRam,
     input iWrnRam,
     input iCoeffiUpdateFlag,
     input [3:0] iAddrRam,
     input signed [15:0] iWrDtRam,
     input [5:0] iNumOfCoeff,
-    output [3:0] oEnMul1, oEnMul2, oEnMul3, oEnMul4, // Selection 용도
-    output oEnAdd1, oEnAdd2, oEnAdd3, oEnAdd4,
     output oEnAcc1, oEnAcc2, oEnAcc3, oEnAcc4,
     output oCsnRam1, oCsnRam2, oCsnRam3, oCsnRam4,
     output oWrnRam1, oWrnRam2, oWrnRam3, oWrnRam4,
@@ -32,7 +29,6 @@ module Controller(
     reg [2:0] rCurState;
     reg [2:0] rNxtState;
     reg [3:0] Selection;
-    reg rEnAddDelay;
     reg rEnAccDelay;
 
     // Current state update
@@ -94,50 +90,25 @@ module Controller(
     // Enable delay signal
     assign oEnDelay = (rCurState == p_Idle || rCurState == p_SpSram) ? 1'b0 : 1'b1;
 
-    // Selection logic
-    always @(posedge iClk_12M) begin
-        if (!iRsn) begin
-            Selection <= 4'd0; // Reset 시 Selection 초기화
-        end else if (rCurState == p_Acc) begin
-            if (Selection == 4'd10) 
-                Selection <= 4'd0; // 9에서 다시 0으로 초기화
-            else 
-                Selection <= Selection + 1'b1; // 0~9까지 순차적으로 증가
-        end else begin
-            Selection <= 4'd0; // 다른 상태에서는 초기화
-        end
-    end
+
 
     // Control signal for Add and Accumulator delay
 always @(posedge iClk_12M) begin
     if (!iRsn) begin
-        rEnAddDelay <= 1'b0; // 리셋 상태에서 초기화
         rEnAccDelay <= 1'b0;
     end else begin
         if (rCurState == p_Acc) begin
-            rEnAddDelay <= 1'b1; // 특정 상태에서만 활성화
             rEnAccDelay <= 1'b1;
         end else begin
-            rEnAddDelay <= 1'b0; // 다른 상태에서는 비활성화
             rEnAccDelay <= 1'b0;
         end
     end
 end
     // Output enable signals for Adders, Accumulators, and Multipliers
-    assign oEnAdd1 = rEnAddDelay;
+
     assign oEnAcc1 = rEnAccDelay;
-    assign oEnMul1 = (rCurState == p_Acc) ? Selection : 4'b0000;
-
-    assign oEnAdd2 = rEnAddDelay;
     assign oEnAcc2 = rEnAccDelay;
-    assign oEnMul2 = (rCurState == p_Acc) ? Selection : 4'b0000;
-
-    assign oEnAdd3 = rEnAddDelay;
-    assign oEnAcc3 = rEnAccDelay;
-    assign oEnMul3 = (rCurState == p_Acc) ? Selection : 4'b0000;
-
-    assign oEnAdd4 = rEnAddDelay;
+    assign oEnAcc3 = rEnAccDelay;;
     assign oEnAcc4 = rEnAccDelay;
-    assign oEnMul4 = (rCurState == p_Acc) ? Selection : 4'b0000;
 
 endmodule

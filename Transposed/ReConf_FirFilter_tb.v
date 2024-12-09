@@ -29,7 +29,6 @@ module ReConf_FirFilter_tb;
   ReConf_FirFilter uut (
     .iClk_12M(iClk_12M),
     .iRsn(iRsn),
-    .iEnSample_300k(iEnSample_300k),
     .iCoeffiUpdateFlag(iCoeffiUpdateFlag),
     .iCsnRam(iCsnRam),
     .iWrnRam(iWrnRam),
@@ -97,7 +96,7 @@ module ReConf_FirFilter_tb;
     repeat ( 2) @(posedge iClk_12M && iEnSample_300k);
     repeat(39) @(posedge iClk_12M);
     iFirIn  <= 3'b001;
-    repeat (2) @(posedge iClk_12M);
+    repeat (3) @(posedge iClk_12M);
     iFirIn  <= 3'b000;
     repeat (100) @(posedge iClk_12M && iEnSample_300k);
   end
@@ -206,11 +205,11 @@ end
   initial begin
     repeat(3) @(posedge iEnSample_300k);
     repeat(33)  begin
-        for (i = 1; i <= 10; i = i + 1) begin
+        for (i = 1; i <= 11; i = i + 1) begin
             @(posedge iClk_12M);
             iAddrRam = i; // Address within 0 to 9 for each RAM
         end
-        repeat (30) @(posedge iClk_12M);
+        repeat (29) @(posedge iClk_12M);
     end
 	end
 
@@ -263,10 +262,10 @@ initial begin
       iCoeffiUpdateFlag = 0;
       // 2. p_Acc 상태
       $display("TEST: p_Acc 상태로 전환");
-        repeat (11) @(posedge iClk_12M);
+        repeat (10) @(posedge iClk_12M);
         iCsnRam = 1;
         // 3. p_Sum 상태
-        repeat (29) @(posedge iClk_12M);
+        repeat (30) @(posedge iClk_12M);
         $display("TEST: p_Sum 상태로 전환");
     end
     #100; // 최종 출력 확인

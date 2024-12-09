@@ -2,8 +2,6 @@ module Mul_Add_Shift(
     input iClk_12M,
     input iRsn,
     input iEnSample_300k,
-    input iEnMul,
-    input iEnAdd,
     input iEnAcc,
     input signed [15:0] iCoeff1,
     input signed [15:0] iCoeff2,
@@ -44,7 +42,7 @@ module Mul_Add_Shift(
             for (k = 0; k < 10; k = k + 1) begin
                 rShift[k] <= 0;
             end
-        end else if (iEnSample_300k) begin
+        end else if (iEnAcc) begin
             // Shift logic and accumulation
             rShift[0] <= wMul[0];
             for (k = 1; k < 10; k = k + 1) begin

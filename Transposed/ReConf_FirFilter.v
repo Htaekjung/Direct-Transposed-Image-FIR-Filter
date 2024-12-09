@@ -8,7 +8,6 @@
 module ReConf_FirFilter(
 	input iClk_12M,
 	input iRsn,
-	input iEnSample_300k,
 	input iCoeffiUpdateFlag,
 	input iCsnRam,
 	input iWrnRam,
@@ -60,9 +59,9 @@ module ReConf_FirFilter(
 	wire signed [15:0] wMac2;
 	wire signed [15:0] wMac3;
 	
-
 	reg  [15:0] rCoeff [1:33];
 	integer j,k,l;
+	
 	always @(*) begin
 		if (!iRsn) begin
 			// Reset 시 모든 Coefficient 초기화
@@ -73,16 +72,16 @@ module ReConf_FirFilter(
 		else if (wCsnRam1 == 1'b0 && wWrnRam1 == 1'b1) begin
 			// Coefficient Update Phase		
 			case (iAddrRam)
-				6'd1:  rCoeff[1]  <= wRdDtRam1;
-				6'd2:  rCoeff[2]  <= wRdDtRam1;
-				6'd3:  rCoeff[3]  <= wRdDtRam1;
-				6'd4:  rCoeff[4]  <= wRdDtRam1;
-				6'd5:  rCoeff[5]  <= wRdDtRam1;
-				6'd6:  rCoeff[6]  <= wRdDtRam1;
-				6'd7:  rCoeff[7]  <= wRdDtRam1;
-				6'd8:  rCoeff[8]  <= wRdDtRam1;
-				6'd9:  rCoeff[9]  <= wRdDtRam1;
-				6'd10: rCoeff[10] <= wRdDtRam1;
+				6'd2:  rCoeff[1]  <= wRdDtRam1;
+				6'd3:  rCoeff[2]  <= wRdDtRam1;
+				6'd4:  rCoeff[3]  <= wRdDtRam1;
+				6'd5:  rCoeff[4]  <= wRdDtRam1;
+				6'd6:  rCoeff[5]  <= wRdDtRam1;
+				6'd7:  rCoeff[6]  <= wRdDtRam1;
+				6'd8:  rCoeff[7]  <= wRdDtRam1;
+				6'd9:  rCoeff[8]  <= wRdDtRam1;
+				6'd10:  rCoeff[9]  <= wRdDtRam1;
+				6'd11: rCoeff[10] <= wRdDtRam1;
 				default: ; // No action
 			endcase
 		end
@@ -97,16 +96,16 @@ module ReConf_FirFilter(
 		end
 		else if (wCsnRam2 == 1'b0 && wWrnRam2 == 1'b1) begin
 			case (iAddrRam)
-				6'd1:  rCoeff[11] <= wRdDtRam2;
-				6'd2:  rCoeff[12] <= wRdDtRam2;
-				6'd3:  rCoeff[13] <= wRdDtRam2;
-				6'd4:  rCoeff[14] <= wRdDtRam2;
-				6'd5:  rCoeff[15] <= wRdDtRam2;
-				6'd6:  rCoeff[16] <= wRdDtRam2;
-				6'd7:  rCoeff[17] <= wRdDtRam2;
-				6'd8:  rCoeff[18] <= wRdDtRam2;
-				6'd9:  rCoeff[19] <= wRdDtRam2;
-				6'd10: rCoeff[20] <= wRdDtRam2;
+				6'd2:  rCoeff[11] <= wRdDtRam2;
+				6'd3:  rCoeff[12] <= wRdDtRam2;
+				6'd4:  rCoeff[13] <= wRdDtRam2;
+				6'd5:  rCoeff[14] <= wRdDtRam2;
+				6'd6:  rCoeff[15] <= wRdDtRam2;
+				6'd7:  rCoeff[16] <= wRdDtRam2;
+				6'd8:  rCoeff[17] <= wRdDtRam2;
+				6'd9:  rCoeff[18] <= wRdDtRam2;
+				6'd10:  rCoeff[19] <= wRdDtRam2;
+				6'd11: rCoeff[20] <= wRdDtRam2;
 				default: ; // No action
 			endcase
 		end
@@ -121,16 +120,16 @@ module ReConf_FirFilter(
 		end	
 		else if (wCsnRam3 == 1'b0  && wWrnRam3 == 1'b1) begin
 			case (iAddrRam)
-				6'd1:  rCoeff[21] <= wRdDtRam3;
-				6'd2:  rCoeff[22] <= wRdDtRam3;
-				6'd3:  rCoeff[23] <= wRdDtRam3;
-				6'd4:  rCoeff[24] <= wRdDtRam3;
-				6'd5:  rCoeff[25] <= wRdDtRam3;
-				6'd6:  rCoeff[26] <= wRdDtRam3;
-				6'd7:  rCoeff[27] <= wRdDtRam3;
-				6'd8:  rCoeff[28] <= wRdDtRam3;
-				6'd9:  rCoeff[29] <= wRdDtRam3;
-				6'd10: rCoeff[30] <= wRdDtRam3;
+				6'd2:  rCoeff[21] <= wRdDtRam3;
+				6'd3:  rCoeff[22] <= wRdDtRam3;
+				6'd4:  rCoeff[23] <= wRdDtRam3;
+				6'd5:  rCoeff[24] <= wRdDtRam3;
+				6'd6:  rCoeff[25] <= wRdDtRam3;
+				6'd7:  rCoeff[26] <= wRdDtRam3;
+				6'd8:  rCoeff[27] <= wRdDtRam3;
+				6'd9:  rCoeff[28] <= wRdDtRam3;
+				6'd10:  rCoeff[29] <= wRdDtRam3;
+				6'd11: rCoeff[30] <= wRdDtRam3;
 				default: ; // No action
 			endcase
 		end
@@ -145,9 +144,9 @@ module ReConf_FirFilter(
 		end	
 		else if (wCsnRam4 == 1'b0 && wWrnRam4 == 1'b1) begin
 			case (iAddrRam)
-				6'd1: rCoeff[31] <= wRdDtRam4;
-				6'd2: rCoeff[32] <= wRdDtRam4;
-				6'd3: rCoeff[33] <= wRdDtRam4;
+				6'd2: rCoeff[31] <= wRdDtRam4;
+				6'd3: rCoeff[32] <= wRdDtRam4;
+				6'd4: rCoeff[33] <= wRdDtRam4;
 				default: ; // No action
 			endcase
 		end	
@@ -200,7 +199,6 @@ module ReConf_FirFilter(
 	Controller Controller(
 		.iClk_12M(iClk_12M),
         .iRsn(iRsn),
-        .iEnSample_300k(iEnSample_300k),
 		.iCsnRam(iCsnRam),
         .iWrnRam(iWrnRam),
         .iCoeffiUpdateFlag(iCoeffiUpdateFlag),
@@ -249,7 +247,6 @@ module ReConf_FirFilter(
 	Mul_Add_Shift MAS_1(
 		.iClk_12M(iClk_12M),
 		.iRsn(iRsn),
-		.iEnSample_300k(iEnSample_300k),
 		.iEnMul(wEnMul1),
 		.iEnAdd(wEnAdd1),
 		.iEnAcc(wEnAcc1),
@@ -270,7 +267,6 @@ module ReConf_FirFilter(
 	Mul_Add_Shift_2 MAS_2(
 		.iClk_12M(iClk_12M),
 		.iRsn(iRsn),
-		.iEnSample_300k(iEnSample_300k),
 		.iEnMul(wEnMul2),
 		.iEnAdd(wEnAdd2),
 		.iEnAcc(wEnAcc2),
@@ -292,7 +288,6 @@ module ReConf_FirFilter(
 	Mul_Add_Shift_2 MAS_3(
 		.iClk_12M(iClk_12M),
 		.iRsn(iRsn),
-		.iEnSample_300k(iEnSample_300k),
 		.iEnMul(wEnMul3),
 		.iEnAdd(wEnAdd3),
 		.iEnAcc(wEnAcc3),
@@ -314,7 +309,6 @@ module ReConf_FirFilter(
 	Mul_Add_Shift_Output MAS_Final(
 		.iClk_12M(iClk_12M),
 		.iRsn(iRsn),
-		.iEnSample_300k(iEnSample_300k),
 		.iShift(wMac3),
 		.iEnMul(wEnMul4),
 		.iEnAdd(wEnAdd4),
