@@ -93,10 +93,10 @@ module ReConf_FirFilter_tb;
     $display("OOOOO 3'b001 is received from testbench  !!! OOOOO");
     $display("------------------------------------------------->");
 
-    repeat ( 2) @(posedge iClk_12M && iEnSample_300k);
-    repeat(39) @(posedge iClk_12M);
+    repeat ( 3) @(posedge iClk_12M && iEnSample_300k);
+    @(posedge iClk_12M);
     iFirIn  <= 3'b001;
-    repeat (3) @(posedge iClk_12M);
+    repeat (10) @(posedge iClk_12M);
     iFirIn  <= 3'b000;
     repeat (100) @(posedge iClk_12M && iEnSample_300k);
   end

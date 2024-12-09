@@ -1,7 +1,6 @@
 module Mul_Add_Shift_Output(
     input iClk_12M,
     input iRsn,
-    input iEnSample_300k,
     input iEnAcc,
     input signed [15:0] iShift,
     input signed [2:0] iFirIn,        // FIR input
@@ -31,7 +30,7 @@ module Mul_Add_Shift_Output(
             for (j = 1; j <= 3; j = j + 1) begin
                 rShift[j] <= 0;
             end
-        end else if (iEnAcc) begin
+        end else if (!iEnAcc) begin
             rShift[1] <= iShift + wMul[1]; // First register gets the FIR input
             // Shift and accumulate the result
             for (k = 3; k >= 2; k = k - 1) begin

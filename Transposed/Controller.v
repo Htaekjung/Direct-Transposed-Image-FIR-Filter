@@ -108,7 +108,6 @@ end
 
     assign oEnAcc1 = rEnAccDelay;
     assign oEnAcc2 = rEnAccDelay;
-    assign oEnAcc3 = rEnAccDelay;;
+    assign oEnAcc3 = rEnAccDelay;
     assign oEnAcc4 = rEnAccDelay;
-
 endmodule

@@ -22,8 +22,6 @@ module ReConf_FirFilter(
 
 	integer i;
 
-	wire [3:0] wEnMul1, wEnMul2, wEnMul3, wEnMul4;
-	wire wEnAdd1, wEnAdd2, wEnAdd3, wEnAdd4;
 	wire wEnAcc1, wEnAcc2, wEnAcc3, wEnAcc4;
 	wire wEnDelay;
 	
@@ -207,17 +205,9 @@ module ReConf_FirFilter(
 		.iNumOfCoeff(iNumOfCoeff),
         .oEnDelay(wEnDelay), //10개
 
-        .oEnMul1(wEnMul1),
-        .oEnAdd1(wEnAdd1),
         .oEnAcc1(wEnAcc1),
-        .oEnMul2(wEnMul2),
-        .oEnAdd2(wEnAdd2),
         .oEnAcc2(wEnAcc2),
-        .oEnMul3(wEnMul3),
-        .oEnAdd3(wEnAdd3),
         .oEnAcc3(wEnAcc3),
-        .oEnMul4(wEnMul4),
-        .oEnAdd4(wEnAdd4),
         .oEnAcc4(wEnAcc4),//12개
 
         // Outputs for RAMs
@@ -247,8 +237,6 @@ module ReConf_FirFilter(
 	Mul_Add_Shift MAS_1(
 		.iClk_12M(iClk_12M),
 		.iRsn(iRsn),
-		.iEnMul(wEnMul1),
-		.iEnAdd(wEnAdd1),
 		.iEnAcc(wEnAcc1),
 		.iFirIn(iFirIn),
 		.iCoeff1(rCoeff[1]),
@@ -267,8 +255,6 @@ module ReConf_FirFilter(
 	Mul_Add_Shift_2 MAS_2(
 		.iClk_12M(iClk_12M),
 		.iRsn(iRsn),
-		.iEnMul(wEnMul2),
-		.iEnAdd(wEnAdd2),
 		.iEnAcc(wEnAcc2),
 		.iShift(wMac1),
 		.iFirIn(iFirIn),
@@ -288,8 +274,6 @@ module ReConf_FirFilter(
 	Mul_Add_Shift_2 MAS_3(
 		.iClk_12M(iClk_12M),
 		.iRsn(iRsn),
-		.iEnMul(wEnMul3),
-		.iEnAdd(wEnAdd3),
 		.iEnAcc(wEnAcc3),
 		.iShift(wMac2),
 		.iFirIn(iFirIn),
@@ -310,8 +294,6 @@ module ReConf_FirFilter(
 		.iClk_12M(iClk_12M),
 		.iRsn(iRsn),
 		.iShift(wMac3),
-		.iEnMul(wEnMul4),
-		.iEnAdd(wEnAdd4),
 		.iEnAcc(wEnAcc4),
 		.iFirIn(iFirIn),
 		.iCoeff1(rCoeff[31]),
@@ -320,7 +302,6 @@ module ReConf_FirFilter(
 		.oFirOut(oFirOut)
 	);
 endmodule
-	
 	
 	
 	
