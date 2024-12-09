@@ -85,7 +85,7 @@ module Mul_Add_Shift_Output(
     /*****************************/
     // Sequential Logic
     /*****************************/
-    always @(posedge iClk_12M or negedge iRsn) begin
+    always @(posedge iClk_12M) begin
         if (!iRsn) begin
             // Reset all registers
             for (i = 0; i < 32; i = i + 1) begin
