@@ -100,7 +100,6 @@ module ReConf_FirFilter_tb;
     repeat (2) @(posedge iClk_12M);
     iFirIn  <= 3'b000;
     repeat (100) @(posedge iClk_12M && iEnSample_300k);
-
   end
 
   /***********************************************

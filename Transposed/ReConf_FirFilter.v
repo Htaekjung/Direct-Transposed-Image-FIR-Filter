@@ -292,6 +292,7 @@ module ReConf_FirFilter(
 	Mul_Add_Shift_2 MAS_3(
 		.iClk_12M(iClk_12M),
 		.iRsn(iRsn),
+		.iEnSample_300k(iEnSample_300k),
 		.iEnMul(wEnMul3),
 		.iEnAdd(wEnAdd3),
 		.iEnAcc(wEnAcc3),
@@ -314,6 +315,7 @@ module ReConf_FirFilter(
 		.iClk_12M(iClk_12M),
 		.iRsn(iRsn),
 		.iEnSample_300k(iEnSample_300k),
+		.iShift(wMac3),
 		.iEnMul(wEnMul4),
 		.iEnAdd(wEnAdd4),
 		.iEnAcc(wEnAcc4),
