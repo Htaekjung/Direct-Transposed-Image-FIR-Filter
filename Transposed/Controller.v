@@ -84,7 +84,7 @@ always @(posedge iClk_12M) begin
     if (!iRsn) begin
         rEnAccDelay <= 1'b0;
     end else begin
-        if (rCurState == p_Read) begin
+        if (rCurState == p_Read || rCurState == p_Output) begin
             rEnAccDelay <= 1'b1;
         end else begin
             rEnAccDelay <= 1'b0;

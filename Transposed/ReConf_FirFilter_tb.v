@@ -91,12 +91,12 @@ module ReConf_FirFilter_tb;
     $display("OOOOO 3'b001 is received from testbench  !!! OOOOO");
     $display("------------------------------------------------->");
 
-    repeat ( 3) @(posedge iClk_12M && iEnSample_300k);
+    repeat (107) @(posedge iClk_12M);
     @(posedge iClk_12M);
     iFirIn  <= 3'b001;
-    repeat (10) @(posedge iClk_12M);
+    repeat (1) @(posedge iClk_12M);
     iFirIn  <= 3'b000;
-    repeat (100) @(posedge iClk_12M && iEnSample_300k);
+    repeat (100) @(posedge iClk_12M);
   end
 
   /***********************************************
@@ -193,7 +193,7 @@ end
           iAddrRam = i; // Address within 0 to 9 for each RAM
           iWrDtRam = coeff[iAddrRam-1];
       end
-      for (i = 1; i <= 33; i = i + 1) begin
+      for (i = 1; i <= 34; i = i + 1) begin
           @(posedge iClk_12M);
           iAddrRam = i; // Address within 0 to 9 for each RAM
       end
@@ -231,7 +231,7 @@ initial begin
       iCoeffiUpdateFlag = 0;
       // 2. p_Read 상태
       $display("TEST: p_Acc 상태로 전환");
-        repeat (33) @(posedge iClk_12M);
+        repeat (34) @(posedge iClk_12M);
         iCsnRam = 1;
         // 3. p_Output 상태
         repeat (50) @(posedge iClk_12M);
