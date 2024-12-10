@@ -15,13 +15,12 @@ module ReConf_FirFilter_tb;
   // Input signals
   reg iClk_12M;
   reg iRsn;
-  reg iEnSample_600k;
+  reg iEnSample_300k;
   reg iCoeffiUpdateFlag;
   reg iCsnRam;
   reg iWrnRam;
-  reg [3:0] iAddrRam;
+  reg [5:0] iAddrRam;
   reg signed [15:0] iWrDtRam;
-  reg [5:0] iNumOfCoeff;
   reg signed [2:0] iFirIn;
   // Output signal
   wire signed [15:0] oFirOut;
@@ -29,13 +28,11 @@ module ReConf_FirFilter_tb;
   ReConf_FirFilter uut (
     .iClk_12M(iClk_12M),
     .iRsn(iRsn),
-    .iEnSample_600k(iEnSample_600k),
     .iCoeffiUpdateFlag(iCoeffiUpdateFlag),
     .iCsnRam(iCsnRam),
     .iWrnRam(iWrnRam),
     .iAddrRam(iAddrRam),
     .iWrDtRam(iWrDtRam),
-    .iNumOfCoeff(iNumOfCoeff),
     .iFirIn(iFirIn),
     .oFirOut(oFirOut)
   );
@@ -73,45 +70,39 @@ module ReConf_FirFilter_tb;
   // 600kHz sample enable making
   ***********************************************/
 
-    initial begin
-      #20
-      repeat (150) begin
-        iEnSample_600k <= 1'b1;
-        #83.333
-        iEnSample_600k <= 1'b0;
-        #1666.67;
-      end
-    end
+  // initial begin
+  //   #20
+  //   repeat (150) begin
+  //     iEnSample_300k <= 1'b1;
+  //     #83.333;  // 83.333ns, HIGH 상태 지속 시간
+  //     iEnSample_300k <= 1'b0;
+  //     #3250;    // 3250ns, LOW 상태 지속 시간
+  //   end
+  // end
+
+
   /***********************************************
   // Switch control
   ***********************************************/
   initial
   begin
     iFirIn  <= 3'b000;
-    // iSampleSelect setting
-    repeat (1) @(posedge iClk_12M && iEnSample_600k);
-    iFirIn  <= 3'b000;
-    // 1ea 3'b001 input
     $display("------------------------------------------------->");
     $display("OOOOO 3'b001 is received from testbench  !!! OOOOO");
     $display("------------------------------------------------->");
 
-    repeat (  2) @(posedge iClk_12M && iEnSample_600k);
-    repeat (20) @(posedge iClk_12M);
+    repeat (107) @(posedge iClk_12M);
+    @(posedge iClk_12M);
     iFirIn  <= 3'b001;
-    repeat (2) @(posedge iClk_12M);
-      iFirIn  <= 3'b000;
-
-    // 200ea 3'b000 input
-    repeat (1000) @(posedge iClk_12M && iEnSample_600k);
-
+    repeat (1) @(posedge iClk_12M);
+    iFirIn  <= 3'b000;
+    repeat (100) @(posedge iClk_12M);
   end
 
   /***********************************************
   // Predefined Coefficients (iWrDtRam 설정)
   ***********************************************/
   reg [15:0] coeff [0:32]; // Coefficient array for all ranges
-  reg [5:0] index;
 
 initial begin
     coeff[0]  = 16'h0003;
@@ -151,46 +142,62 @@ initial begin
     coeff[31] = 16'h0000;
     coeff[32] = 16'h0003;
 end
+// initial begin
+//     coeff[0]  = 16'h0001;
+//     coeff[1]  = 16'h0002;
+//     coeff[2]  = 16'h0003;
+//     coeff[3]  = 16'h0004;
+//     coeff[4]  = 16'h0005;
+//     coeff[5]  = 16'h0006;
+//     coeff[6]  = 16'h0007;
+//     coeff[7]  = 16'h0008;
+//     coeff[8]  = 16'h0009;
+//     coeff[9]  = 16'h000a;
+
+//     coeff[10] = 16'h0011;
+//     coeff[11] = 16'h0012;
+//     coeff[12] = 16'h0013;
+//     coeff[13] = 16'h0014;
+//     coeff[14] = 16'h0015;
+//     coeff[15] = 16'h0016;
+//     coeff[16] = 16'h0017;
+//     coeff[17] = 16'h0018;
+//     coeff[18] = 16'h0019;
+//     coeff[19] = 16'h001a;
+
+//     coeff[20] = 16'h0021;
+//     coeff[21] = 16'h0022;
+//     coeff[22] = 16'h0023;
+//     coeff[23] = 16'h0024;
+//     coeff[24] = 16'h0025;
+//     coeff[25] = 16'h0026;
+//     coeff[26] = 16'h0027;
+//     coeff[27] = 16'h0028;
+//     coeff[28] = 16'h0029;
+//     coeff[29] = 16'h002a;
+
+//     coeff[30] = 16'h0031;
+//     coeff[31] = 16'h0032;
+//     coeff[32] = 16'h0033;
+// end
   integer i, j, k; // 'integer'는 올바르게 선언됨
 
   /**********************************/
   //iAddr 설정
   /**********************************/
   initial begin
-    repeat(22) @(posedge iClk_12M);
-    repeat(4) begin
-      for (i = 1; i <= 10; i = i + 1) begin
+    repeat(41) @(posedge iClk_12M);
+
+      for (i = 1; i <= 33; i = i + 1) begin
+          @(posedge iClk_12M);
+          iAddrRam = i; // Address within 0 to 9 for each RAM
+          iWrDtRam = coeff[iAddrRam-1];
+      end
+      for (i = 1; i <= 34; i = i + 1) begin
           @(posedge iClk_12M);
           iAddrRam = i; // Address within 0 to 9 for each RAM
       end
-  	end
   end
-
-  initial begin
-    repeat(3) @(posedge iEnSample_600k);
-    repeat (20) @(posedge iClk_12M);
-    repeat(33)  begin
-        for (i = 1; i <= 10; i = i + 1) begin
-            @(posedge iClk_12M);
-            iAddrRam = i; // Address within 0 to 9 for each RAM
-        end
-        repeat (11) @(posedge iClk_12M);
-    end
-	end
-
-
-  /**********************************/
-  // iNumOfCoeff 설정
-  /**********************************/
-
-	initial begin
-  repeat(22) @(posedge iClk_12M);
-	for (j = 0; j <= 39; j = j + 1) begin
-      @(posedge iClk_12M);
-      iNumOfCoeff = j; // Address within 0 to 9 for each RAM    // Assign corresponding coefficient value
-      iWrDtRam = coeff[iNumOfCoeff];
-    end
-	end
 
 
 
@@ -204,39 +211,33 @@ initial begin
     iWrnRam = 1;
     iAddrRam = 0;
     iWrDtRam = 0;
-    iNumOfCoeff = 6'b0; // 기본 계수 개수 10
     // 테스트 단계
     // 0. p_Idle 상태
-    repeat (22) @(posedge iClk_12M);
+    repeat (41) @(posedge iClk_12M);
     $display("TEST: p_Idle 상태로 전환");
 
 
     iCoeffiUpdateFlag = 1; // 계수 업데이트 플래그 설정
     iCsnRam = 0; 
     iWrnRam = 0; // RAM 활성화
-    iNumOfCoeff = 0;
     iAddrRam = 0;
-    // 1. p_SpSram 상태
-    repeat (40) @(posedge iClk_12M);
+    // 1. p_Write 상태
+    repeat (33) @(posedge iClk_12M);
     
     $display("TEST: p_SpSram 상태로 전환");
-    iNumOfCoeff = 42;
-    repeat (34) begin
+    // repeat (34) begin
       iWrnRam = 1; 
       iCsnRam = 0;
       iCoeffiUpdateFlag = 0;
-      // 2. p_Acc 상태
+      // 2. p_Read 상태
       $display("TEST: p_Acc 상태로 전환");
-
-        repeat (11) @(posedge iClk_12M);
+        repeat (34) @(posedge iClk_12M);
         iCsnRam = 1;
-        // 3. p_Sum 상태
-        repeat (10) @(posedge iClk_12M);
-
+        // 3. p_Output 상태
+        repeat (50) @(posedge iClk_12M);
         $display("TEST: p_Sum 상태로 전환");
-    end
+    //end
     #100; // 최종 출력 확인
-
     $stop; // 시뮬레이션 종료
 end
 endmodule
