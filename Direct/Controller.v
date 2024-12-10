@@ -3,7 +3,7 @@
   - File name        : Controller.v
   - Description      : Controller w/FSM
   - Owner            : Hyuntaek.Jung
-  - Revision history : 1) 2024.11.26 : Initial release
+  - Revision history : 1) 2024.12.10 : Initial release
 *********************************************************************/
 module Controller(
     input iClk_12M,

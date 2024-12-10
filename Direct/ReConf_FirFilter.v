@@ -1,9 +1,9 @@
 /*********************************************************************
-  - Project          : Team Project (FIR filter w/ Kaiser window)
+  - Project          : Direct form vs Transposed form
   - File name        : ReConf_FirFilter.v
   - Description      : Top module
   - Owner            : Hyuntaek.Jung
-  - Revision history : 1) 2024.11.26 : Initial release
+  - Revision history : 1) 2024.12.10 : Initial release
 *********************************************************************/
 module ReConf_FirFilter(
 	input iClk_12M,
