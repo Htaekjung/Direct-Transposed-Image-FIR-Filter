@@ -1,11 +1,11 @@
 /*********************************************************************
-  - Project          : Team Project (FIR filter w/ Kaiser window)
-  - File name        : ReConf_FirFilter.v
-  - Description      : Top module
+  - Project          : Direct form vs Transposed form
+  - File name        : FirFilter_Transposed.v
+  - Description      : Transposed form Top module
   - Owner            : Hyuntaek.Jung
-  - Revision history : 1) 2024.11.26 : Initial release
+  - Revision history : 1) 2024.12.10 : Initial release
 *********************************************************************/
-module ReConf_FirFilter(
+module FirFilter_Transposed(
 	input iClk_12M,
 	input iRsn,
 	input iCoeffiUpdateFlag,
@@ -80,7 +80,7 @@ module ReConf_FirFilter(
 
 
 	//SpSram instance 
-    SpSram_Param #(16,33) SpSram1(
+    SpSram_Param_Transposed #(16,33) SpSram1(
         .iClk_12M(iClk_12M),
         .iRsn(iRsn),
         .iCsnRam(wCsnRam),
@@ -91,7 +91,7 @@ module ReConf_FirFilter(
     );
 	
 	//FSM
-	Controller Controller(
+	Controller_Transposed Controller(
 		.iClk_12M(iClk_12M),
         .iRsn(iRsn),
 		.iCsnRam(iCsnRam),
@@ -109,7 +109,7 @@ module ReConf_FirFilter(
 	);
 
 //역할 : iFirIn과 coeff 10개를 동시에 곱해서 shift register까지 구현해서 계속 넘기면서 출력값은 wire로 출력 
-	Mul_Add_Shift_Output MAS_1(
+	Mul_Add_Shift_Output_Transposed MAS_1(
 		.iClk_12M(iClk_12M),
 		.iRsn(iRsn),
 		.iEnAcc(wEnAcc),

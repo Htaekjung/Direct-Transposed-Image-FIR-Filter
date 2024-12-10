@@ -1,11 +1,11 @@
 /*********************************************************************
-  - Project          : Team Project (FIR filter w/ Kaiser window)
+  - Project          : Direct form vs Transposed form
   - File name        : Controller.v
-  - Description      : Controller w/FSM
+  - Description      : Controller w/FSM in a transposed form
   - Owner            : Hyuntaek.Jung
   - Revision history : 1) 2024.11.26 : Initial release
 *********************************************************************/
-module Controller(
+module Controller_Transposed(
     input iClk_12M,
     input iRsn,
     input iCsnRam,

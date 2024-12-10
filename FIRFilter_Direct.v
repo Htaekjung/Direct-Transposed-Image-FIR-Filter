@@ -1,11 +1,11 @@
 /*********************************************************************
   - Project          : Direct form vs Transposed form
-  - File name        : ReConf_FirFilter.v
-  - Description      : Top module
+  - File name        : ReConf_FirFilter_Direct.v
+  - Description      : Direct form Top module 
   - Owner            : Hyuntaek.Jung
   - Revision history : 1) 2024.12.10 : Initial release
 *********************************************************************/
-module ReConf_FirFilter(
+module FIRFilter_Direct(
 	input iClk_12M,
 	input iRsn,
 	input iCoeffiUpdateFlag,
@@ -80,7 +80,7 @@ module ReConf_FirFilter(
 
 
 	//SpSram instance 
-    SpSram_Param #(16,33) SpSram1(
+    SpSram_Param_Direct #(16,33) SpSram1(
         .iClk_12M(iClk_12M),
         .iRsn(iRsn),
         .iCsnRam(wCsnRam),
@@ -91,7 +91,7 @@ module ReConf_FirFilter(
     );
 	
 	//FSM
-	Controller Controller(
+	Controller_Direct Controller(
 		.iClk_12M(iClk_12M),
         .iRsn(iRsn),
 		.iCsnRam(iCsnRam),
@@ -109,7 +109,7 @@ module ReConf_FirFilter(
 	);
 
 //역할 : iFirIn과 coeff 10개를 동시에 곱해서 shift register까지 구현해서 계속 넘기면서 출력값은 wire로 출력 
-	Mul_Add_Shift_Output MAS_1(
+	Cal_Shift_Output_Direct MAS_1(
 		.iClk_12M(iClk_12M),
 		.iRsn(iRsn),
 		.iEnAcc(wEnAcc),

@@ -1,13 +1,13 @@
 /*********************************************************************
   - Project          : Direct form vs Transposed form
-  - File name        : SpSram_Param.v
+  - File name        : SpSram_Param_Direct.v
   - Description      : SpSram with parameterized size
   - Owner            : Hyuntaek.Jung
   - Revision history : 1) 2024.12.10 : Initial release
 *********************************************************************/
 `timescale 1ns/10ps
 
-module SpSram_Param #(
+module SpSram_Param_Direct #(
   parameter DATA_WIDTH = 16,  // Data width
   parameter ADDR_DEPTH = 33   // Address depth
 )(

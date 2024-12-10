@@ -1,11 +1,11 @@
 /*********************************************************************
   - Project          : Direct form vs Transposed form
-  - File name        : Cal_Shift_Output.v
+  - File name        : Cal_Shift_Output_Direct.v
   - Description      : Calculate & Register shift & output
   - Owner            : Hyuntaek.Jung
   - Revision history : 1) 2024.12.10 : Initial release
 *********************************************************************/
-module Mul_Add_Shift_Output(
+module Cal_Shift_Output_Direct(
     input wire iClk_12M,
     input wire iRsn,
     input wire iEnAcc,

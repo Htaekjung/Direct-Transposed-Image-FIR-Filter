@@ -1,4 +1,11 @@
-module Mul_Add_Shift_Output(
+/*********************************************************************
+  - Project          : Direct form vs Transposed form
+  - File name        : Mul_Add_Shift_Output.v
+  - Description      : Calculate & Register shift & output in transposed form
+  - Owner            : Hyuntaek.Jung
+  - Revision history : 1) 2024.12.10 : Initial release
+*********************************************************************/
+module Mul_Add_Shift_Output_Transposed(
     input wire iClk_12M,
     input wire iRsn,
     input wire iEnAcc,

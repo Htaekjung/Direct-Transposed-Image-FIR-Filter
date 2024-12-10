@@ -1,11 +1,11 @@
 /*********************************************************************
-  - Project          : Team Project (FIR filter w/ Kaiser window)
-  - File name        : Controller.v
-  - Description      : Controller w/FSM
+  - Project          : Direct form vs Transposed form
+  - File name        : Controller_Direct.v
+  - Description      : Controller w/FSM in direct form
   - Owner            : Hyuntaek.Jung
   - Revision history : 1) 2024.12.10 : Initial release
 *********************************************************************/
-module Controller(
+module Controller_Direct(
     input iClk_12M,
     input iRsn,
     input iCsnRam,
@@ -51,10 +51,8 @@ module Controller(
                 rNxtState <= (iCsnRam) ? p_Output : p_Read;
 
             p_Output://3
-            if (iCoeffiUpdateFlag == 0 && iCsnRam == 0 && iWrnRam == 1) begin
-                rNxtState <= p_Read;  // iCoeffiUpdateFlag = 0, iCsnRam = 0, iWrnRam = 1일 때 p_Read로 전이
-            end else if (iCoeffiUpdateFlag == 1 && iCsnRam == 1 && iWrnRam == 0) begin
-                rNxtState <= p_Idle;  // iCoeffiUpdateFlag = 1, iCsnRam = 1, iWrnRam = 0일 때 p_Idle로 전이
+            if (iCoeffiUpdateFlag == 1 && iCsnRam == 1 && iWrnRam == 0) begin
+                rNxtState <= p_Idle;  // iCoeffiUpdateFlag = 0, iCsnRam = 0, iWrnRam = 1일 때 p_Read로 전이
             end else begin
                 rNxtState <= p_Output;   // 나머지 경우는 p_Output 상태 유지
             end
