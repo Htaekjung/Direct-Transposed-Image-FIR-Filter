@@ -9,7 +9,7 @@ module Cal_Shift_Output_Direct(
     input wire iClk_12M,
     input wire iRsn,
     input wire iEnAcc,
-    input signed [2:0] iFirIn,      // FIR input
+    input signed [15:0] iFirIn,      // FIR input
     input signed [15:0] iCoeff1,
     input signed [15:0] iCoeff2,
     input signed [15:0] iCoeff3,

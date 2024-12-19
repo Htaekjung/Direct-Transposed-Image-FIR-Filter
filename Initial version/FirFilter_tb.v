@@ -21,7 +21,7 @@ module FirFilter_tb;
   reg iWrnRam;
   reg [5:0] iAddrRam;
   reg signed [15:0] iWrDtRam;
-  reg signed [2:0] iFirIn;
+  reg signed [15:0] iFirIn;
   // Output signal
   wire signed [15:0] oFirOut;
   // Instantiate the DUT (Device Under Test)
@@ -98,61 +98,37 @@ module FirFilter_tb;
   ***********************************************/
   initial
   begin
-    iFirIn  <= 3'b000;
+    iFirIn  <= 16'b000;
     $display("------------------------------------------------->");
     $display("OOOOO 3'b001 is received from testbench  !!! OOOOO");
     $display("------------------------------------------------->");
 
     repeat (107) @(posedge iClk_12M);
     @(posedge iClk_12M);
-    iFirIn  <= 3'b001;
+    iFirIn  <= 16'b001;
     repeat (1) @(posedge iClk_12M);
-    iFirIn  <= 3'b000;
+    iFirIn  <= 16'b000;
     repeat (100) @(posedge iClk_12M);
   end
 
   /***********************************************
   // Predefined Coefficients (iWrDtRam 설정)
   ***********************************************/
-  reg [15:0] coeff [0:32]; // Coefficient array for all ranges
+  reg [15:0] coeff [0:11]; // Coefficient array for all ranges
 
 initial begin
-    coeff[0]  = 16'h0003;
-    coeff[1]  = 16'h0000;
-    coeff[2]  = -16'h0006;
-    coeff[3]  = 16'h0007;
-    coeff[4]  = 16'h0000;
-    coeff[5]  = -16'h000B;
-    coeff[6]  = 16'h000D;
-    coeff[7]  = 16'h0000;
-    coeff[8]  = -16'h0013;
-    coeff[9]  = 16'h0018;
-
-    coeff[10] = 16'h0000;
-    coeff[11] = -16'h0025;
-    coeff[12] = 16'h0030;
-    coeff[13] = 16'h0000;
-    coeff[14] = -16'h0066;
-    coeff[15] = 16'h00CE;
-    coeff[16] = 16'h01F4;
-    coeff[17] = 16'h00CE;
-    coeff[18] = -16'h0066;
-    coeff[19] = 16'h0000;
-
-    coeff[20] = 16'h0030;
-    coeff[21] = -16'h0025;
-    coeff[22] = 16'h0000;
-    coeff[23] = 16'h0018;
-    coeff[24] = -16'h0013;
-    coeff[25] = 16'h0000;
-    coeff[26] = 16'h000D;
-    coeff[27] = -16'h000B;
-    coeff[28] = 16'h0000;
-    coeff[29] = 16'h0007;
-
-    coeff[30] = -16'h0006;
-    coeff[31] = 16'h0000;
-    coeff[32] = 16'h0003;
+    coeff[1]  = 16'h0003;//양수
+    coeff[2]  = 16'h0006;//음수
+    coeff[3]  = 16'h0007;//양수
+    coeff[4]  = 16'h000B;//음수
+    coeff[5]  = 16'h000D;//양수
+    coeff[6]  = 16'h0013;//음수
+    coeff[7]  = 16'h0018;//양수
+    coeff[8]  = 16'h0025;//음수
+    coeff[9]  = 16'h0030;//양수
+    coeff[10] = 16'h0066;//음수
+    coeff[11] = 16'h00CE;//양수
+    coeff[12] = 16'h01F4;//양수
 end
 
   integer i, j, k; // 'integer'는 올바르게 선언됨

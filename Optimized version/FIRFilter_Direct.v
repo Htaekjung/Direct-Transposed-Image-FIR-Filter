@@ -13,7 +13,7 @@ module FIRFilter_Direct(
 	input iWrnRam,
 	input [5:0] iAddrRam,
 	input signed [15:0] iWrDtRam,
-	input signed [2:0] iFirIn,
+	input signed [15:0] iFirIn,
 	output signed [15:0] oFirOut
 	);
 
