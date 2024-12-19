@@ -29,54 +29,8 @@ module FIRFilter_Direct(
 	wire signed [15:0] wRdDtRam;
 	
 	reg  [15:0] rCoeff [1:33];
-	
-	always @(*) begin
-		if (!iRsn) begin
-			// Reset 시 모든 Coefficient 초기화
-			for (i = 1; i <= 33; i = i + 1) begin
-				rCoeff[i] <= 16'h0;
-			end
-		end
-		else if (wCsnRam == 1'b0 && wWrnRam == 1'b1) begin
-			// Coefficient Update Phase		
-			case (iAddrRam)
-				6'd2:   rCoeff[1]  <= wRdDtRam;
-				6'd3:   rCoeff[2]  <= wRdDtRam;
-				6'd4:   rCoeff[3]  <= wRdDtRam;
-				6'd5:   rCoeff[4]  <= wRdDtRam;
-				6'd6:   rCoeff[5]  <= wRdDtRam;
-				6'd7:   rCoeff[6]  <= wRdDtRam;
-				6'd8:   rCoeff[7]  <= wRdDtRam;
-				6'd9:   rCoeff[8]  <= wRdDtRam;
-				6'd10:  rCoeff[9]  <= wRdDtRam;
-				6'd11:  rCoeff[10] <= wRdDtRam;
-				6'd12:  rCoeff[11] <= wRdDtRam;
-				6'd13:  rCoeff[12] <= wRdDtRam;
-				6'd14:  rCoeff[13] <= wRdDtRam;
-				6'd15:  rCoeff[14] <= wRdDtRam;
-				6'd16:  rCoeff[15] <= wRdDtRam;
-				6'd17:  rCoeff[16] <= wRdDtRam;
-				6'd18:  rCoeff[17] <= wRdDtRam;
-				6'd19:  rCoeff[18] <= wRdDtRam;
-				6'd20:  rCoeff[19] <= wRdDtRam;
-				6'd21:  rCoeff[20] <= wRdDtRam;
-				6'd22:  rCoeff[21] <= wRdDtRam;
-				6'd23:  rCoeff[22] <= wRdDtRam;
-				6'd24:  rCoeff[23] <= wRdDtRam;
-				6'd25:  rCoeff[24] <= wRdDtRam;
-				6'd26:  rCoeff[25] <= wRdDtRam;
-				6'd27:  rCoeff[26] <= wRdDtRam;
-				6'd28:  rCoeff[27] <= wRdDtRam;
-				6'd29:  rCoeff[28] <= wRdDtRam;
-				6'd30:  rCoeff[29] <= wRdDtRam;
-				6'd31:  rCoeff[30] <= wRdDtRam;
-				6'd32:  rCoeff[31] <= wRdDtRam;
-				6'd33:  rCoeff[32] <= wRdDtRam;
-				6'd34:  rCoeff[33] <= wRdDtRam;
-				default: ; // No action
-			endcase
-		end
-	end
+
+
 
 
 	//SpSram instance 
@@ -87,7 +41,39 @@ module FIRFilter_Direct(
         .iWrnRam(wWrnRam),
         .iAddrRam(wAddrRam),
         .iWrDtRam(wWrDtRam),
-        .oRdDtRam(wRdDtRam)
+        .oCoeff1(rCoeff[1]),
+        .oCoeff2(rCoeff[2]),
+        .oCoeff3(rCoeff[3]),
+        .oCoeff4(rCoeff[4]),
+        .oCoeff5(rCoeff[5]),
+        .oCoeff6(rCoeff[6]),
+        .oCoeff7(rCoeff[7]),
+        .oCoeff8(rCoeff[8]),
+        .oCoeff9(rCoeff[9]),
+        .oCoeff10(rCoeff[10]),
+        .oCoeff11(rCoeff[11]),
+        .oCoeff12(rCoeff[12]),
+        .oCoeff13(rCoeff[13]),
+        .oCoeff14(rCoeff[14]),
+        .oCoeff15(rCoeff[15]),
+        .oCoeff16(rCoeff[16]),
+        .oCoeff17(rCoeff[17]),
+        .oCoeff18(rCoeff[18]),
+        .oCoeff19(rCoeff[19]),
+        .oCoeff20(rCoeff[20]),
+        .oCoeff21(rCoeff[21]),
+        .oCoeff22(rCoeff[22]),
+        .oCoeff23(rCoeff[23]),
+        .oCoeff24(rCoeff[24]),
+        .oCoeff25(rCoeff[25]),
+        .oCoeff26(rCoeff[26]),
+        .oCoeff27(rCoeff[27]),
+        .oCoeff28(rCoeff[28]),
+        .oCoeff29(rCoeff[29]),
+        .oCoeff30(rCoeff[30]),
+        .oCoeff31(rCoeff[31]),
+        .oCoeff32(rCoeff[32]),
+        .oCoeff33(rCoeff[33])
     );
 	
 	//FSM
